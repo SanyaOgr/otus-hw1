@@ -1,0 +1,5 @@
+#pragma once
+
+#cmakedefine GIT_BRANCH "@GIT_BRANCH@"
+#cmakedefine GIT_COMMIT_HASH "@GIT_COMMIT_HASH@"
+#cmakedefine PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH@

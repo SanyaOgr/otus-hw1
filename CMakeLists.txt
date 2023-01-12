@@ -2,7 +2,40 @@ cmake_minimum_required(VERSION 3.12)
 
 project(hellow)
 
-add_executable(hellow src/main.cpp)
+if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    execute_process(
+        COMMAND git rev-parse --abbrev-ref HEAD
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    execute_process(
+        COMMAND git log -1 --format=%h
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_COMMIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    set(GIT_BRANCH "")
+    set(GIT_COMMIT_HASH "")
+endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+
+message(STATUS "Git current branch: ${GIT_BRANCH}")
+message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+
+message(STATUS "Generating cmake_config.h")
+
+configure_file(
+    ${CMAKE_SOURCE_DIR}/src/cmake_config.h.in
+    ${CMAKE_SOURCE_DIR}/src/generated/cmake_config.h
+)
+
+set(PROJECT_VERSION_PATCH $ENV{GITHUB_RUN_NUMBER})
+
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
+add_executable(hellow src/main.cpp src/generated/cmake_config.h)
 
 install(TARGETS hellow)
 
