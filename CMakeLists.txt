@@ -28,14 +28,15 @@ message(STATUS "Generating cmake_config.h")
 
 configure_file(
     ${CMAKE_SOURCE_DIR}/src/cmake_config.h.in
-    ${CMAKE_SOURCE_DIR}/src/generated/cmake_config.h
+    ${CMAKE_BINARY_DIR}/generated/cmake_config.h
 )
 
 set(PROJECT_VERSION_PATCH $ENV{GITHUB_RUN_NUMBER})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR}/generated)
 
-add_executable(hellow src/main.cpp src/generated/cmake_config.h)
+add_executable(hellow src/main.cpp)
 
 install(TARGETS hellow)
 
