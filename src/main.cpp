@@ -5,7 +5,7 @@ int main()
 {
     auto hi = "Hello";
 
-    std::cout << hi << " World " << PROJECT_VERSION_PATCH << std::endl;
+    std::cout << hi << " World " << GIT_COMMIT_HASH << " " << GIT_BRANCH << std::endl;
 
     return 0;
 }
