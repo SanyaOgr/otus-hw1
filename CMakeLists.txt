@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(hellow VERSION 0.0.${VERSION_PATCH})
+project(hellow VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
 
 if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     execute_process(
@@ -23,7 +23,7 @@ endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
 message(STATUS "Git current branch: ${GIT_BRANCH}")
 message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
-message(STATUS "Verison patch: ${PROJECT_VERSION_PATCH}")
+message(STATUS "Version patch: ${PROJECT_VERSION_PATCH}")
 
 message(STATUS "Generating cmake_config.h")
 
