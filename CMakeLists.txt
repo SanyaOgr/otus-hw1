@@ -23,6 +23,7 @@ endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
 message(STATUS "Git current branch: ${GIT_BRANCH}")
 message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+message(STATUS "Verison patch: ${PROJECT_VERSION_PATCH}")
 
 message(STATUS "Generating cmake_config.h")
 

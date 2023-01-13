@@ -7,7 +7,7 @@ int main()
 
     std::cout << hi << " World " << std::endl;
     std::cout << "Git commit " << GIT_COMMIT_HASH << " " << GIT_BRANCH << std::endl;
-    std::cout << "Build " << PROJECT_VERSIO_PATCH << std::endl;
+    std::cout << "Build " << PROJECT_VERSION_PATCH << std::endl;
 
     return 0;
 }
