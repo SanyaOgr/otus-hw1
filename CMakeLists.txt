@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(hellow)
+project(hellow VERSION 0.0.${VERSION_PATCH})
 
 if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     execute_process(
@@ -30,8 +30,6 @@ configure_file(
     ${CMAKE_SOURCE_DIR}/src/cmake_config.h.in
     ${CMAKE_BINARY_DIR}/generated/cmake_config.h
 )
-
-set(PROJECT_VERSION_PATCH $ENV{GITHUB_RUN_NUMBER})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_BINARY_DIR}/generated)
