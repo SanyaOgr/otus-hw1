@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 #Sets PATCH version to GitHub Actions run number 
 if(DEFINED ENV{GITHUB_RUN_NUMBER})
-    set(BUILD_NUMBER: $ENV{GITHUB_RUN_NUMBER})
+    set(BUILD_NUMBER $ENV{GITHUB_RUN_NUMBER})
 else()
     set(BUILD_NUMBER 0)
 endif()
