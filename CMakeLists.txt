@@ -22,8 +22,10 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_BINARY_DIR}/generated)
 
 add_executable(hellow src/main.cpp)
+add_executable(version_test test/test.cpp)
 
 install(TARGETS hellow)
 
+
 enable_testing()
-add_test(NAME hellow_test COMMAND hellow)
+add_test(hellow_test version_test)
