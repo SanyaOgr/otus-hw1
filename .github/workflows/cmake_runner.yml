@@ -14,7 +14,7 @@ jobs:
   build-test:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [linux-latest, windows-latest, macos-latest]
 
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
@@ -35,7 +35,7 @@ jobs:
 
     - name: Execute
 
-      run: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/hellow.exe
+      run: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/hellow
 
     - name: Test
       working-directory: ${{github.workspace}}/build

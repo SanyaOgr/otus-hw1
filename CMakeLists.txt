@@ -1,32 +1,18 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(hellow VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
+#Sets PATCH version to GitHub Actions run number 
+if(DEFINED ENV{GITHUB_RUN_NUMBER})
+    set(BUILD_NUMBER: $ENV{GITHUB_RUN_NUMBER})
+else()
+    set(BUILD_NUMBER 0)
+endif()
 
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    execute_process(
-        COMMAND git rev-parse --abbrev-ref HEAD
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE GIT_BRANCH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+#Project hellow
+project(hellow VERSION 0.0.${BUILD_NUMBER})
+message(STATUS "Patch Version: ${PROJECT_VERSION_PATCH}")
 
-    execute_process(
-        COMMAND git log -1 --format=%h
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE GIT_COMMIT_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-else(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    set(GIT_BRANCH "")
-    set(GIT_COMMIT_HASH "")
-endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-
-message(STATUS "Git current branch: ${GIT_BRANCH}")
-message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
-message(STATUS "Version patch: ${PROJECT_VERSION_PATCH}")
-
+#Generating version macro with cmake
 message(STATUS "Generating cmake_config.h")
-
 configure_file(
     ${CMAKE_SOURCE_DIR}/src/cmake_config.h.in
     ${CMAKE_BINARY_DIR}/generated/cmake_config.h
