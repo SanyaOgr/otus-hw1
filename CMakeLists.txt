@@ -26,6 +26,5 @@ add_executable(version_test test/test.cpp)
 
 install(TARGETS hellow)
 
-
 enable_testing()
 add_test(hellow_test version_test)
