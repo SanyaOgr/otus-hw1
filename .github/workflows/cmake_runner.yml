@@ -38,7 +38,13 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
 
-    - name: Execute
+    - name: Execute on Windows
+      if: ${{RUNNER_OS}} == windows-latest
+      working-directory: ${{github.workspace}}/build
+      run: bin/${{env.BUILD_TYPE}}/hellow.exe
+
+    - name: Execute on Mac or Linux
+      if: ${{RUNNER_OS}} != windows-latest
       working-directory: ${{github.workspace}}/build
       run: ./bin/${{env.BUILD_TYPE}}/hellow
 
