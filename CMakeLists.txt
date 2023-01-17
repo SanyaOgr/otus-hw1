@@ -24,7 +24,12 @@ include_directories(${CMAKE_BINARY_DIR}/generated)
 add_executable(hellow src/main.cpp)
 add_executable(version_test test/test.cpp)
 
-install(TARGETS hellow)
+set_target_properties(hellow
+    PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}
+)
+
+#install(TARGETS hellow)
 
 enable_testing()
 add_test(hellow_test version_test)
