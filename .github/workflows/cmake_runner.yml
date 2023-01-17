@@ -46,5 +46,5 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: binaries
-        path: ${{github.workspace}}/build/${{env.BUILD_TYPE}}
+        name: executable
+        path: ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}
