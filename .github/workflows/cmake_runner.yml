@@ -49,7 +49,7 @@ jobs:
         name: executable
         path: ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}
 
-  build-and-test (windows-latest):
+  build-and-test-on-windows-latest:
     runs-on: windows-latest
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
