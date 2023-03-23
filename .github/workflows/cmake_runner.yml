@@ -1,66 +1,125 @@
-name: CMake СI/CD Runner
+name: CMake Build Matrix
 
+# Controls when the action will run. Triggers the workflow on push
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
-env:
-  BUILD_TYPE: Release
-
 jobs:
-  build-and-test-MacOS-Linux:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        config:
+          - {
+            name: "Windows Latest MSVC",
+            os: windows-latest,
+            artifact: "windows_msvc",
+            build_type: "Release",
+            cc: "cl",
+            cxx: "cl",
+            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            generators: "Visual Studio 17 2022"
+          }
+          - {
+            name: "Windows Latest MinGW",
+            os: windows-latest,
+            artifact: "windows_mingw",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++",
+            generators: "Ninja"
+          }
+          - {
+            name: "Ubuntu_Latest_GCC",
+            os: ubuntu-latest,
+            artifact: "ubuntu_gcc",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++",
+            generators: "Ninja"
+          }
+          - {
+            name: "macOS Latest Clang",
+            os: macos-latest,
+            artifact: "macos_clang",
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++",
+            generators: "Ninja"
+          }
 
-    runs-on: ${{matrix.os}}
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-      
-    - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      - name: Print env
+        run: |
+          echo github.event.action: ${{ github.event.action }}
+          echo github.event_name: ${{ github.event_name }}
 
-    - name: Execute
-      working-directory: ${{github.workspace}}/build/bin
-      run: ./hw1
+      - name: Install dependencies on windows
+        if: startsWith(matrix.config.os, 'windows')
+        run: |
+          choco install ninja cmake
+          ninja --version
+          cmake --version
+          cmd "${{ matrix.config.environment_script }}"
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}}
+      - name: Install dependencies on ubuntu
+        if: startsWith(matrix.config.name, 'Ubuntu_Latest_GCC')
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build cmake
+          ninja --version
+          cmake --version
+          gcc --version
 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: binary
-        path: ${{github.workspace}}/build/bin/hw1
+      - name: Install dependencies on macos
+        if: startsWith(matrix.config.os, 'macos')
+        run: |
+          brew install p7zip cmake ninja
+          ninja --version
+          cmake --version
 
-  build-and-test-Windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v3
+      - name: Configure
+        shell: bash
+        run: |
+          mkdir build
+          cmake \
+            -S . \
+            -B build \
+            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
+            -G "${{ matrix.config.generators }}"
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-      
-    - name: Build
-      working-directory: ${{github.workspace}}/build
-      run: cmake --build . --config ${{env.BUILD_TYPE}}
+      - name: Build
+        shell: bash
+        run: cmake --build . --config ${{ matrix.config.build_type }}
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}}
+      #- name: Install Strip
+        #shell: bash
+        #run: cmake --install . --strip
 
-    - name: Execute
-      working-directory: ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}
-      run: ./hw1.exe
+      #- name: Pack
+        #shell: bash
+        #working-directory: instdir
+        #run: |
+        #  ls -laR
+        #  ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: binary
-        path: ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}/hw1.exe
+      - name: Upload
+        if: matrix.config.generators != "Visual Studio 17 2022" && matrix.config.generators != "XCode"
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{github.workspace}}/build/bin/
+          name: ${{ matrix.config.artifact }}
+
+      - name: Upload(VS)
+        if: matrix.config.generators == "Visual Studio 17 2022"
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}/
+          name: ${{ matrix.config.artifact }}
