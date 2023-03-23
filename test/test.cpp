@@ -1,4 +1,4 @@
-#include "cmake_config.h"
+#include "generated/version.h"
 
 int main()
 {

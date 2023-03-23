@@ -7,29 +7,33 @@ else()
     set(BUILD_NUMBER 0)
 endif()
 
-#Project hellow
-project(hellow VERSION 0.0.${BUILD_NUMBER})
+#Project with patch version
+project(hw1 VERSION 0.0.${BUILD_NUMBER})
 message(STATUS "Patch Version: ${PROJECT_VERSION_PATCH}")
 
 #Generating version macro with cmake
-message(STATUS "Generating cmake_config.h")
+message(STATUS "Generating version.h")
 configure_file(
-    ${CMAKE_SOURCE_DIR}/src/cmake_config.h.in
-    ${CMAKE_BINARY_DIR}/generated/cmake_config.h
-)
+        ${PROJECT_SOURCE_DIR}/src/version.h.in
+        ${PROJECT_SOURCE_DIR}/src/generated/version.h)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${CMAKE_BINARY_DIR}/generated)
 
-add_executable(hellow src/main.cpp)
-add_executable(version_test test/test.cpp)
+add_executable(hw1 src/main.cpp)
+add_executable(test_version test/test.cpp)
 
-set_target_properties(hellow
-    PROPERTIES 
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}
-)
+install(TARGETS hw1 RUNTIME DESTINATION bin)
 
-#install(TARGETS hellow)
+set(CPACK_GENERATOR DEB)
+
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+
+include(CPack)
 
 enable_testing()
-add_test(hellow_test version_test)
+
+add_test(hw1_tests test_version)
