@@ -111,15 +111,15 @@ jobs:
         #  ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
 
       - name: Upload
-        if: matrix.config.generators != "Visual Studio 17 2022" && matrix.config.generators != "XCode"
+        if: ${{ matrix.config.generators }} != "Visual Studio 17 2022" && matrix.config.generators != "XCode"
         uses: actions/upload-artifact@v3
         with:
           path: ${{github.workspace}}/build/bin/
           name: ${{ matrix.config.artifact }}
 
       - name: Upload(VS)
-        if: matrix.config.generators == "Visual Studio 17 2022"
+        if: ${{ matrix.config.generators }} == "Visual Studio 17 2022"
         uses: actions/upload-artifact@v3
         with:
-          path: ${{github.workspace}}/build/bin/${{env.BUILD_TYPE}}/
+          path: ${{ github.workspace }}/build/bin/${{ env.BUILD_TYPE }}/
           name: ${{ matrix.config.artifact }}
