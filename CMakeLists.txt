@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 #Sets PATCH version to GitHub Actions run number 
 if(DEFINED ENV{GITHUB_RUN_NUMBER})
     set(BUILD_NUMBER $ENV{GITHUB_RUN_NUMBER})
@@ -17,22 +20,28 @@ configure_file(
         ${PROJECT_SOURCE_DIR}/src/version.h.in
         ${PROJECT_SOURCE_DIR}/src/generated/version.h)
 
-include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 
 add_executable(hw1 src/main.cpp)
 add_executable(test_version test/test.cpp)
 
-install(TARGETS hw1 RUNTIME DESTINATION bin)
+set_target_properties(hw1
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-set(CPACK_GENERATOR DEB)
+#install(TARGETS hw1 RUNTIME DESTINATION bin)
 
-set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+#set(CPACK_GENERATOR DEB)
 
-set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+#set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+#set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+#set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-include(CPack)
+#set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+
+#include(CPack)
 
 enable_testing()
 
