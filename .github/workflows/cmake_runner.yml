@@ -81,6 +81,10 @@ jobs:
           ninja --version
           cmake --version
 
+      - name: Checkout submodules
+        working-directory: ${{ github.workspace }}/vendor
+        run: git submodule update --init --recursive
+
       - name: Configure
         shell: bash
         run: | 
