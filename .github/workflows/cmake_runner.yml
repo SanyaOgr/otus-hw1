@@ -1,11 +1,7 @@
 name: CMake Build Matrix
 
 # Controls when the action will run. Triggers the workflow on push
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -108,7 +104,7 @@ jobs:
 
       - name: Execute
         if: ${{ matrix.config.generator != 'Visual Studio 17 2022' }}
-        working-directory: ${{ github.workspace }}/build/bin
+        working-directory: ${{ github.workspace }}/build/bin/${{ matrix.config.build_type }}
         run: ./hw1
 
       - name: Test
@@ -118,5 +114,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          path: ${{github.workspace}}/build/bin/
+          path: ${{github.workspace}}/build/bin/${{ matrix.config.build_type }}/
           name: ${{ matrix.config.artifact }}
