@@ -44,7 +44,7 @@ jobs:
             generator: "Ninja"
           }
           - {
-            name: "macOS Latest Clang",
+            name: "MacOS Latest Clang",
             os: macos-latest,
             artifact: "macos_clang",
             build_type: "Release",
