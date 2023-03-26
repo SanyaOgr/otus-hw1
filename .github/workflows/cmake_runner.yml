@@ -89,9 +89,7 @@ jobs:
           conan --version
 
       - name: Install dependencies from conanfile
-        run: |
-          conan profile detect --force
-          conan install . --output-folder=build --build=missing
+        run: conan install . --output-folder=build --build=missing
 
       - name: Configure
         shell: bash
@@ -99,7 +97,7 @@ jobs:
             cmake \
             -S . \
             -B build \
-            -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
+            -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake" \
             -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" \
             -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
             -G "${{ matrix.config.generator }}"
