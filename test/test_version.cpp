@@ -1,9 +1,13 @@
+#include <gtest/gtest.h>
 #include "generated/version.h"
 
-int main()
+TEST(VersionTests, PatchVersionTest)
 {
-    if(PROJECT_VERSION_PATCH < 0)
-        return -1;
+    ASSERT_GE(PROJECT_VERSION_PATCH, 0);
+}
 
-    return 0;        
+int main(int argc, char** argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

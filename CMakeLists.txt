@@ -44,6 +44,7 @@ target_include_directories(
 target_include_directories(
         test_version PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/googletest/googletest/include
 )
 
 target_link_libraries(
