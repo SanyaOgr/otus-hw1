@@ -91,7 +91,7 @@ jobs:
       - name: Install dependencies from conanfile
         run: |
           conan profile detect --force
-          conan install . --output-folder=vendor --build=missing
+          conan install . --output-folder=build --build=missing
 
       - name: Configure
         shell: bash
