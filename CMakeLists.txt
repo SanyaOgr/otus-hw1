@@ -25,7 +25,7 @@ configure_file(
 )
 
 # Dependencies from Conan2
-find_package(gtest REQUIRED)
+find_package(GTest REQUIRED)
 
 # Project targets
 add_executable(
