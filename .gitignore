@@ -1,5 +1,1 @@
-cmake-build-debug-visual-studio/
-cmake-build-release-visual-studio/
-.idea/
-
-/build/
+build
