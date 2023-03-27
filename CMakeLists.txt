@@ -32,9 +32,7 @@ add_subdirectory(src)
 enable_testing()
 
 # Tests subdirectory
-if(BUILD_TESTING)
-    add_subdirectory(tests)
-endif()
+add_subdirectory(tests)
 
 # Compiler options
 if(MSVC)
