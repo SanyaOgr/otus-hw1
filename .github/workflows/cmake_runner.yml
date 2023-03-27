@@ -96,5 +96,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          path: ${{github.workspace}}/build/bin/${{ matrix.config.build_type }}/
+          path: ${{github.workspace}}/build/bin
           name: ${{ matrix.config.artifact }}
