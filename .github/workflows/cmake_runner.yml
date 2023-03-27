@@ -76,6 +76,7 @@ jobs:
         run: git submodule update --init --recursive
 
       - name: Configure
+        shell: bash
         run: | 
             cmake \
             -S . \
