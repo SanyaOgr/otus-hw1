@@ -12,15 +12,15 @@ endif()
 
 # Project with patch version
 project(
-        hw1
-        VERSION 0.0.${BUILD_NUMBER}
+    hw1
+    VERSION 0.0.${BUILD_NUMBER}
 )
 message(STATUS "Patch Version: ${PROJECT_VERSION_PATCH}")
 
 # Generating version macro with CMake
 configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/version.h.in
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/generated/version.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/version.h.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/generated/version.h
 )
 
 # Finding dependencies
@@ -37,28 +37,32 @@ add_subdirectory(tests)
 # Compiler options
 if(MSVC)
     target_compile_options(
-            hw1 PRIVATE
-            /W4
+        hw1 PRIVATE
+        /W4
     )
     target_compile_options(
-            test_version PRIVATE
-            /W4
+        test_version PRIVATE
+        /W4
     )
 else()
     target_compile_options(
-            hw1 PRIVATE
-            -Wall -Wextra -pedantic -Werror
+        hw1 PRIVATE
+        -Wall -Wextra -pedantic -Werror
     )
     target_compile_options(
-            test_version PRIVATE
-            -Wall -Wextra -pedantic -Werror
+        test_version PRIVATE
+        -Wall -Wextra -pedantic -Werror
     )
 endif()
 
 # Output paths
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}")
+set_target_properties(
+    hw1 test_version
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/$<CONFIG>"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/$<CONFIG>"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
+)
 
 #install(TARGETS hw1 RUNTIME DESTINATION bin)
 
