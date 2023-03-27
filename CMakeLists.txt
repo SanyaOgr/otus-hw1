@@ -24,33 +24,16 @@ configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/src/generated/version.h
 )
 
-# Dependencies from Conan2
+# Finding dependencies
 find_package(GTest REQUIRED)
 
-# Project targets
-add_executable(
-        hw1
-        src/main.cpp
-)
-add_executable(
-        test_version
-        test/test_version.cpp
-)
+# Sources subdirectory
+add_subdirectory(src)
 
-target_include_directories(
-        hw1 PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-target_include_directories(
-        test_version PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
+enable_testing()
 
-target_link_libraries(
-        test_version PRIVATE
-        GTest::gtest
-        GTest::gtest_main
-)
+# Tests subdirectory
+add_subdirectory(test)
 
 # Compiler options
 if(MSVC)
@@ -77,19 +60,13 @@ else()
     )
 endif()
 
-# Binaries folder by default: build/<bin|lib>/<build_type>
+# Output paths
 set_target_properties(
         hw1
         PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/$<CONFIG>"
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/$<CONFIG>"
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
-)
-
-set_target_properties(
-        test_version
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test"
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
 #install(TARGETS hw1 RUNTIME DESTINATION bin)
@@ -103,7 +80,3 @@ set_target_properties(
 #set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
 #include(CPack)
-
-enable_testing()
-
-add_test(hw1_tests test/test_version)
