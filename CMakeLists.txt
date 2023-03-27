@@ -30,7 +30,7 @@ add_subdirectory(src)
 enable_testing()
 
 # Tests subdirectory
-add_subdirectory(test)
+add_subdirectory(tests)
 
 # Compiler options
 if(MSVC)
