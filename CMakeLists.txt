@@ -31,12 +31,10 @@ add_subdirectory(src)
 
 enable_testing()
 
+# Tests subdirectory
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
-
-# Tests subdirectory
-add_subdirectory(test)
 
 # Compiler options
 if(MSVC)
