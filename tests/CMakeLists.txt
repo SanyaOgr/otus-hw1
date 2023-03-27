@@ -1,5 +1,3 @@
-add_test(test_version test_version)
-
 # Test targets
 add_executable(
     test_version
@@ -12,3 +10,5 @@ target_include_directories(
 )
 
 target_compile_features(test_version PUBLIC cxx_std_17)
+
+add_test(test_version test_version)
