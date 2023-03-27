@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # Sets PATCH version to GitHub Actions run number if builds on it
 if(DEFINED ENV{GITHUB_RUN_NUMBER})
     set(BUILD_NUMBER $ENV{GITHUB_RUN_NUMBER})

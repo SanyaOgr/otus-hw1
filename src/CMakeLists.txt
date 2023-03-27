@@ -6,5 +6,3 @@ add_executable(
 )
 
 target_compile_features(hw1 PUBLIC cxx_std_17)
-
-# target_link_libraries(...)

@@ -11,4 +11,10 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/src
 )
 
+target_link_libraries(
+    test_version
+    GTest::gtest
+    GTest::gtest_main
+)
+
 target_compile_features(test_version PUBLIC cxx_std_17)
