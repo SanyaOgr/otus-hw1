@@ -36,7 +36,7 @@ add_subdirectory(tests)
 if(MSVC)
     # @see https://github.com/google/googletest/blob/v1.8.x/googletest/README.md
     # Visual Studio Dynamic vs Static Runtimes
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE)
 
     target_compile_options(
             hw1 PRIVATE
