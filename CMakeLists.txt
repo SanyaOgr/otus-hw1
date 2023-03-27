@@ -57,7 +57,7 @@ endif()
 
 # Output paths
 set_target_properties(
-    hw1 test_version
+    hw1
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
