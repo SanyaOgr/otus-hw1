@@ -21,11 +21,18 @@ configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/src/generated/version.h
 )
 
-# Finding dependencies
-find_package(GTest REQUIRED)
-
 # Sources subdirectory
 add_subdirectory(src)
+
+# For GoogleTest
+if(MSVC)
+    # @see https://github.com/google/googletest/blob/v1.8.x/googletest/README.md
+    # Visual Studio Dynamic vs Static Runtimes
+    set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE)
+endif()
+
+# Finding dependencies
+find_package(GTest REQUIRED)
 
 enable_testing()
 
@@ -34,10 +41,6 @@ add_subdirectory(tests)
 
 # Compiler options
 if(MSVC)
-    # @see https://github.com/google/googletest/blob/v1.8.x/googletest/README.md
-    # Visual Studio Dynamic vs Static Runtimes
-    set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE)
-
     target_compile_options(
             hw1 PRIVATE
             /W4
